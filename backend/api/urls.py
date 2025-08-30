@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
 from company.views import CompanyViewSet
+from order.views import *
 from .views import *
 from rest_framework.routers import DefaultRouter
 
@@ -23,4 +24,8 @@ urlpatterns = [
     
     # company app urls
     path('', include(router.urls)),
+    
+    # order app urls
+    path('categories/', CategoryView.as_view(), name='categories'),
+    path('products/', ProductView.as_view(), name='products')
 ]
