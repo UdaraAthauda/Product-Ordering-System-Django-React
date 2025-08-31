@@ -19,6 +19,7 @@ import { ColorModeButton } from "./ui/color-mode";
 import { AuthContext } from "./AuthContext";
 import { USER } from "@/constants";
 import { FaRegUser } from "react-icons/fa";
+import Sidebar from "./Sidebar";
 
 export default function Navbar() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -41,7 +42,7 @@ export default function Navbar() {
 
         <HStack color="white" gap={4} marginLeft={10}>
           <Link>Company</Link>
-          <Link>Categories</Link>
+          <Sidebar name="Categories" />
         </HStack>
 
         <Spacer />

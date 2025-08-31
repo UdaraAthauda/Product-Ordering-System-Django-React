@@ -41,6 +41,7 @@ export default function Home() {
                 src={`${URL}${product.img}`}
                 alt={`${URL}${product.img}`}
                 h="150px"
+                borderRadius={5}
               />
               <Card.Body>
                 <Card.Title>{product.name}</Card.Title>

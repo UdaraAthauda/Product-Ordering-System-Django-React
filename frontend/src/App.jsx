@@ -7,6 +7,7 @@ import { AuthProvider, AuthContext } from './components/AuthContext'
 import { toaster } from './components/ui/toaster'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/Navbar'
+import Category from './pages/Category'
 
 function Logout() {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -35,6 +36,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/categories/:catID" element={<ProtectedRoute><Category /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </>

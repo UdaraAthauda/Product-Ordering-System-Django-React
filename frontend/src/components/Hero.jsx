@@ -3,7 +3,7 @@ import img from '../assets/react.svg'
 
 export default function Hero() {
   return (
-    <Box bg="teal.300" color="white" py={{ base: 16, md: 24 }} mb={5}>
+    <Box bg="teal.300" color="white" py={{ base: 16, md: 24,  }} mb={5}>
       <Container maxW="7xl">
         <Flex
           direction={{ base: "column", md: "row" }}
@@ -20,14 +20,6 @@ export default function Hero() {
               Manage your products, track your orders, and streamline your
               company’s workflow with ease — all in one place.
             </Text>
-            <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
-              <Button colorPalette="blue" size="lg">
-                Get Started
-              </Button>
-              <Button variant="outline" size="lg" colorPalette="black">
-                Learn More
-              </Button>
-            </Stack>
           </Stack>
 
           {/* Right Image */}
