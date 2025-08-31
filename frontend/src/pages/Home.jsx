@@ -1,13 +1,66 @@
-import { Container, Heading, Text } from '@chakra-ui/react'
-import { USER } from '@/constants'
+import {
+  Box,
+  Container,
+  Heading,
+  SimpleGrid,
+  Text,
+  Card,
+  Image,
+  Button,
+} from "@chakra-ui/react";
+import { USER, URL } from "@/constants";
+import Hero from "@/components/Hero";
+import api from "@/api";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const user = localStorage.getItem(USER)
-  
+  const user = localStorage.getItem(USER);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await api.get("products/");
+        setProducts(res.data);
+      } catch (error) {
+        console.error("error in product fetching: ", error);
+      }
+    };
+
+    getData();
+  }, []);
+
   return (
-    <Container centerContent>
-      <Heading>Home</Heading>
-      <Text>{user}</Text>
-    </Container>
-  )
+    <>
+      <Hero />
+      <Container centerContent>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} gap={6}>
+          {products.map((product) => 
+            <Card.Root maxW="xs" key={product.id}>
+              <Image
+                src={`${URL}${product.img}`}
+                alt={`${URL}${product.img}`}
+                h="150px"
+              />
+              <Card.Body>
+                <Card.Title>{product.name}</Card.Title>
+
+                <Text
+                  textStyle="2xl"
+                  fontWeight="medium"
+                  letterSpacing="tight"
+                  mt="2"
+                >
+                  $ {product.price}
+                </Text>
+              </Card.Body>
+              <Card.Footer alignSelf={"center"}>
+                <Button variant="solid">Add to cart</Button>
+              </Card.Footer>
+            </Card.Root>
+          )}
+        </SimpleGrid>
+      </Container>
+    </>
+  );
 }
