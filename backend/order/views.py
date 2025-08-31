@@ -16,8 +16,12 @@ class CategoryView(APIView):
 class ProductView(APIView):
     permission_classes = [AllowAny]
     
-    def get(self, request):
-        products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
+    def get(self, request, cat=None):
+        if cat:
+            products = Product.objects.filter(category=cat)
+            serializer = ProductSerializer(products, many=True)
+        else:
+            products = Product.objects.all()
+            serializer = ProductSerializer(products, many=True)
         
         return Response(serializer.data)

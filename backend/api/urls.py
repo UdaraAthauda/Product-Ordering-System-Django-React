@@ -27,5 +27,6 @@ urlpatterns = [
     
     # order app urls
     path('categories/', CategoryView.as_view(), name='categories'),
-    path('products/', ProductView.as_view(), name='products')
+    path('products/', ProductView.as_view(), name='products'),
+    path('products/<int:cat>/', ProductView.as_view(), name='product')
 ]
