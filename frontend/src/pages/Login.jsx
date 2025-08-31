@@ -71,7 +71,7 @@ export default function Login() {
   return (
     <>
       <Container maxW="sm" centerContent>
-        <Stack textAlign="center" mb={10} mt={12} gap={3}>
+        <Stack textAlign="center" mb={10} mt={5} gap={3}>
           <Heading size="3xl" fontWeight="bold" color="blue.600">
              Login
           </Heading>

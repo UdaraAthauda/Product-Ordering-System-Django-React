@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import { AuthProvider, AuthContext } from './components/AuthContext'
 import { toaster } from './components/ui/toaster'
 import ProtectedRoute from './components/ProtectedRoute'
+import Navbar from './components/Navbar'
 
 function Logout() {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -28,6 +29,7 @@ function App() {
   return (
     <>
       <AuthProvider>
+        <Navbar />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />

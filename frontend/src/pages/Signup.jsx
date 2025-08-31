@@ -58,7 +58,7 @@ export default function Signup() {
   return (
     <>
       <Container maxW="sm" centerContent>
-        <Stack textAlign="center" mb={10} mt={12} gap={2}>
+        <Stack textAlign="center" mb={10} mt={5} gap={2}>
           <Heading size="3xl" fontWeight="bold" color="blue.600">
             Sign Up
           </Heading>
