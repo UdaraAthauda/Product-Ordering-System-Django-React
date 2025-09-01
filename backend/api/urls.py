@@ -34,4 +34,6 @@ urlpatterns = [
     # cart app urls
     path('cart/<int:company_id>/', CartView.as_view(), name='cart-detail'),
     path('cart/add/<int:company_id>/', AddToCartView.as_view(), name='cart-add'),
+    path('cart/item/<int:company_id>/<int:item_id>/', UpdateCartItemView.as_view(), name='cart-update'),
+    path('cart/clear/<int:company_id>/', ClearCartView.as_view(), name='cart-clear'),
 ]

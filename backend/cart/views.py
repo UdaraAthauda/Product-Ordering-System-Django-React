@@ -57,3 +57,55 @@ class AddToCartView(APIView):
         cart_item.save()
         
         return Response(CartSerializer(cart).data, status=status.HTTP_201_CREATED)
+    
+
+class UpdateCartItemView(APIView):
+    
+    @swagger_auto_schema(
+        operation_description="Update a product to the company's cart",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=["quantity"],
+            properties={
+                "quantity": openapi.Schema(
+                    type=openapi.TYPE_INTEGER,
+                    description="Quantity of the product to add (default=1)",
+                ),
+            },
+        ),
+        responses={201: CartSerializer, 400: "Bad Request"},
+    )
+    
+    
+    def patch(self, request, company_id, item_id):
+        company = get_object_or_404(Company, id=company_id)
+        cart = get_object_or_404(Cart, company=company)
+        
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        quantity = request.data.get("quantity")
+        
+        if quantity and int(quantity) > 0:
+            cart_item.quantity = int(quantity)
+            cart_item.save()
+        else:
+            cart_item.delete()
+        
+        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK) 
+    
+    def delete(self, request, company_id, item_id):
+        company = get_object_or_404(Company, id=company_id)
+        cart = get_object_or_404(Cart, company=company)
+        
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+        cart_item.delete()
+        
+        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+    
+    
+class ClearCartView(APIView):
+    def delete(self, request, company_id):
+        company = get_object_or_404(Company, id=company_id)
+        cart = get_object_or_404(Cart, company=company)
+        
+        cart.items.all().delete()
+        return Response({"message": "Cart Cleared."}, status=status.HTTP_204_NO_CONTENT)
