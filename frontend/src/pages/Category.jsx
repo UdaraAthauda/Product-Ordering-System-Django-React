@@ -34,7 +34,7 @@ export default function Category() {
   return (
     <>
       <Hero />
-      <Container centerContent>
+      <Container centerContent mt={5}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} gap={6}>
           {products.map((product) => (
             <Card.Root maxW="xs" key={product.id}>

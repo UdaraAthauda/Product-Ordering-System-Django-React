@@ -60,27 +60,7 @@ class OrderItem(models.Model):
         return self.quantity * self.price
     
 
-class Cart(models.Model):
-    company = models.OneToOneField(Company, on_delete=models.CASCADE, related_name="cart")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"Cart {self.id} - {self.company.name}"
-
-
-class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
-
-    @property
-    def subtotal(self):
-        return self.quantity * self.product.price
 
     
 

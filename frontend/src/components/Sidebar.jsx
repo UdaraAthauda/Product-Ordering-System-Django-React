@@ -46,8 +46,7 @@ const Sidebar = (props) => {
               
             </Drawer.Body>
             <Drawer.Footer>
-              <Button variant="outline">Cancel</Button>
-              <Button>Save</Button>
+              <Button as={Link} to='/' w={'full'} colorPalette={'blue'}>Home</Button>
             </Drawer.Footer>
             <Drawer.CloseTrigger asChild>
               <CloseButton size="sm" />

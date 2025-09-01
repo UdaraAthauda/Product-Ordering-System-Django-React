@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'api',
     'company',
     'order',
+    'cart',
 ]
 
 SITE_ID = 1
@@ -75,7 +76,7 @@ REST_FRAMEWORK = {
 
 # JWT configurations
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'UPDATE_LAST_LOGIN': True,

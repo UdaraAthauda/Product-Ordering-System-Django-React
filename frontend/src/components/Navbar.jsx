@@ -40,9 +40,16 @@ export default function Navbar() {
           Product Orderring
         </Heading>
 
+
         <HStack color="white" gap={4} marginLeft={10}>
-          <Link>Company</Link>
-          <Sidebar name="Categories" />
+          {isAuthenticated ? (
+            <>
+              <Link>Company</Link>
+              <Sidebar name="Categories" />
+            </>
+          ) : (
+            <Sidebar name="Categories" />
+          )}   
         </HStack>
 
         <Spacer />

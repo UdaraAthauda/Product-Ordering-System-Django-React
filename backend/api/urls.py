@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
 from company.views import CompanyViewSet
 from order.views import *
+from cart.views import *
 from .views import *
 from rest_framework.routers import DefaultRouter
 
@@ -28,5 +29,9 @@ urlpatterns = [
     # order app urls
     path('categories/', CategoryView.as_view(), name='categories'),
     path('products/', ProductView.as_view(), name='products'),
-    path('products/<int:cat>/', ProductView.as_view(), name='product')
+    path('products/<int:cat>/', ProductView.as_view(), name='product'),
+    
+    # cart app urls
+    path('cart/<int:company_id>/', CartView.as_view(), name='cart-detail'),
+    path('cart/add/<int:company_id>/', AddToCartView.as_view(), name='cart-add'),
 ]

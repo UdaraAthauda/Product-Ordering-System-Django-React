@@ -3,7 +3,7 @@ import img from '../assets/react.svg'
 
 export default function Hero() {
   return (
-    <Box bg="teal.300" color="white" py={{ base: 16, md: 24,  }} mb={5}>
+    <Box bg="green.500" color="white" py={{ base: 16, md: 24, sm: 20  }}>
       <Container maxW="7xl">
         <Flex
           direction={{ base: "column", md: "row" }}
@@ -12,7 +12,7 @@ export default function Hero() {
           maxH="2"
         >
           {/* Left Content */}
-          <Stack spacing={6} maxW="lg">
+          <Stack maxW="lg" mt={{base: 0, md: 0, sm: -12}}>
             <Heading as="h1" size="2xl" fontWeight="bold" lineHeight="short">
               Simplify Your Product Ordering
             </Heading>
@@ -30,6 +30,7 @@ export default function Hero() {
               alt="Product Ordering Illustration"
               borderRadius="xl"
               boxShadow="lg"
+              display={{base: "none", md: "block"}}
             />
           </Box>
         </Flex>
