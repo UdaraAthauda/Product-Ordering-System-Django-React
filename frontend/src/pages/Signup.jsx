@@ -77,7 +77,7 @@ export default function Signup() {
           >
             <Stack gap={5}>
               <Field.Root invalid={!!errors.email} required>
-                <Field.Label fontWeight="medium">Email <Field.RequiredIndicator /></Field.Label>
+                <Field.Label fontWeight="medium" color={'black'}>Email <Field.RequiredIndicator /></Field.Label>
                 <Input
                   placeholder="me@example.com"
                   size="lg"
@@ -91,7 +91,7 @@ export default function Signup() {
               </Field.Root>
 
               <Field.Root invalid={!!errors.password1} required>
-                <Field.Label fontWeight="medium">Password <Field.RequiredIndicator /></Field.Label>
+                <Field.Label fontWeight="medium" color={'black'}>Password <Field.RequiredIndicator /></Field.Label>
                 <PasswordInput
                   placeholder="Enter password"
                   size="lg"
@@ -104,7 +104,7 @@ export default function Signup() {
               </Field.Root>
 
               <Field.Root invalid={!!errors.non_field_errors} required>
-                <Field.Label fontWeight="medium">Confirm Password <Field.RequiredIndicator /></Field.Label>
+                <Field.Label fontWeight="medium" color={'black'}>Confirm Password <Field.RequiredIndicator /></Field.Label>
                 <PasswordInput
                   placeholder="Re-enter password"
                   size="lg"

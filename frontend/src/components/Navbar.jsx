@@ -17,13 +17,14 @@ import { FiUserPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { ColorModeButton } from "./ui/color-mode";
 import { AuthContext } from "./AuthContext";
-import { USER } from "@/constants";
+import { USER, COMPANY_NAME } from "@/constants";
 import { FaRegUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 
 export default function Navbar() {
   const { isAuthenticated } = useContext(AuthContext);
   const user = localStorage.getItem(USER);
+  const company = localStorage.getItem(COMPANY_NAME);
 
   return (
     <>
@@ -44,7 +45,12 @@ export default function Navbar() {
         <HStack color="white" gap={4} marginLeft={10}>
           {isAuthenticated ? (
             <>
-              <Link>Company</Link>
+              {company ? (
+                <Link to='/company'>{company}</Link>
+              ) : (
+                <Link to='/company'>Company</Link>
+              )}
+              
               <Sidebar name="Categories" />
             </>
           ) : (

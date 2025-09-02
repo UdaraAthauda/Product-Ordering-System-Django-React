@@ -8,20 +8,32 @@ import {
   Image,
   Button,
 } from "@chakra-ui/react";
-import { USER, URL } from "@/constants";
+import { URL, COMPANY_NAME, COMPANY_ID } from "@/constants";
 import Hero from "@/components/Hero";
 import api from "@/api";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  const user = localStorage.getItem(USER);
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getData = async () => {
       try {
         const res = await api.get("products/");
         setProducts(res.data);
+
+        const res2 = await api.get("company/");
+        
+        if (res2.data && res2.data.length > 0) {
+          const company = res2.data[0]
+          localStorage.setItem(COMPANY_ID, company.id)
+          localStorage.setItem(COMPANY_NAME, company.name)
+        } else {
+          navigate('/company')
+        }
+        
       } catch (error) {
         console.error("error in product fetching: ", error);
       }

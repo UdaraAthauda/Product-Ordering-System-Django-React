@@ -8,6 +8,7 @@ import { toaster } from './components/ui/toaster'
 import ProtectedRoute from './components/ProtectedRoute'
 import Navbar from './components/Navbar'
 import Category from './pages/Category'
+import Company from './pages/Company'
 
 function Logout() {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -37,6 +38,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/categories/:catID" element={<ProtectedRoute><Category /></ProtectedRoute>} />
+          <Route path="/company" element={<ProtectedRoute><Company /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </>
