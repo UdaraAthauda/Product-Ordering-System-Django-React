@@ -11,7 +11,7 @@ from drf_yasg import openapi
 
 class CartView(APIView):
     def get(self, request, company_id):
-        company = get_object_or_404(Company, id=company_id)
+        company = get_object_or_404(Company, id=company_id, user=request.user)
         
         cart, created = Cart.objects.get_or_create(company=company)
         serializer = CartSerializer(cart)
@@ -40,7 +40,7 @@ class AddToCartView(APIView):
     
     
     def post(self, request, company_id):
-        company = get_object_or_404(Company, id=company_id)
+        company = get_object_or_404(Company, id=company_id, user=request.user)
         cart, created = Cart.objects.get_or_create(company=company)
         
         product_id = request.data.get('product_id')
@@ -78,7 +78,7 @@ class UpdateCartItemView(APIView):
     
     
     def patch(self, request, company_id, item_id):
-        company = get_object_or_404(Company, id=company_id)
+        company = get_object_or_404(Company, id=company_id, user=request.user)
         cart = get_object_or_404(Cart, company=company)
         
         cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
@@ -93,7 +93,7 @@ class UpdateCartItemView(APIView):
         return Response(CartSerializer(cart).data, status=status.HTTP_200_OK) 
     
     def delete(self, request, company_id, item_id):
-        company = get_object_or_404(Company, id=company_id)
+        company = get_object_or_404(Company, id=company_id, user=request.user)
         cart = get_object_or_404(Cart, company=company)
         
         cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
@@ -104,7 +104,7 @@ class UpdateCartItemView(APIView):
     
 class ClearCartView(APIView):
     def delete(self, request, company_id):
-        company = get_object_or_404(Company, id=company_id)
+        company = get_object_or_404(Company, id=company_id, user=request.user)
         cart = get_object_or_404(Cart, company=company)
         
         cart.items.all().delete()

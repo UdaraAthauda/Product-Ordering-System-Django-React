@@ -7,7 +7,6 @@ import {
   Button,
   NumberInput,
 } from "@chakra-ui/react";
-import { GiHealthIncrease } from "react-icons/gi";
 import { URL, COMPANY_NAME, COMPANY_ID } from "@/constants";
 import Hero from "@/components/Hero";
 import api from "@/api";

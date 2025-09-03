@@ -61,9 +61,11 @@ export default function Navbar() {
         <Spacer />
 
         {/* Navigation Buttons */}
-        <HStack spacing={4}>
+        <HStack spacing={4} color={'white'}>
           {isAuthenticated ? (
             <>
+              <Link to='/cart'>Cart</Link>
+
               <Menu.Root>
                 <Menu.Trigger>
                   <Avatar.Root colorPalette="teal" cursor="pointer">

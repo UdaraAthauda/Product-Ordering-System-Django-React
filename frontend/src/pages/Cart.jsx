@@ -7,85 +7,85 @@ import {
   Button,
   NumberInput,
 } from "@chakra-ui/react";
-import { URL, COMPANY_ID } from "@/constants";
-import Hero from "@/components/Hero";
 import api from "@/api";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { COMPANY_ID, URL } from "@/constants";
+import React, { useEffect, useState } from "react";
 import { toaster } from "@/components/ui/toaster";
-import { useParams } from "react-router-dom";
 
-export default function Category() {
-  const [products, setProducts] = useState([]);
-  const companyID = localStorage.getItem(COMPANY_ID)
-  const { catID } = useParams();
-  const navigate = useNavigate();
-
-  // store quantities by product.id
+export default function Cart() {
+  const companyID = localStorage.getItem(COMPANY_ID);
+  const [cart, setCart] = useState([]);
+  const [items, setItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+
+  const handleQuantities = (data) => {
+    data.map((item) => {
+      setQuantities((prev) => ({ ...prev, [item.product]: item.quantity }));
+    });
+  };
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await api.get(`products/${catID}/`);
-        setProducts(res.data);
+        const res = await api.get(`cart/${companyID}/`);
+
+        setCart(res.data);
+        setItems(res.data.items);
+        handleQuantities(res.data.items);
       } catch (error) {
-        console.error("error in product fetching: ", error);
+        console.error("error in fetching cart: ", error);
       }
     };
 
     getData();
-  }, [catID]);
+  }, []);
 
   const handleFormChange = (productID, details) => {
     setQuantities((prev) => ({
       ...prev,
-      [productID]: parseInt(details.value) || 1,
+      [productID]: parseInt(details.value),
     }));
   };
 
-  const handleSubmit = async (e, productID) => {
-    e.preventDefault();
-
+  const handleSubmit = async (e, itemID, productID) => {
+    e.preventDefault()
     const data = {
-      product_id: productID,
-      quantity: quantities[productID] || 1,
-    };
-
+        quantity: quantities[productID]
+    }
+    
     try {
-      const res = await api.post(`cart/add/${companyID}/`, data);
+        const res = await api.patch(`cart/item/${companyID}/${itemID}/`, data)
 
-      toaster.create({
-        title: "Successful",
-        description: "Item is added to the cart.",
-        type: "success",
-        duration: 5000,
-      });
+        toaster.create({
+            title: 'successful',
+            description: 'Item updated successfully.',
+            type: 'success',
+            duration: 5000,
+        })
     } catch (error) {
-      console.error("error in cart data submitting: ", error);
+        console.error('error in updating cart: ', error)
     }
   };
 
   return (
     <>
-      <Hero />
       <Container centerContent mt={5}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} gap={6}>
-          {products.map((product) => (
+          {items.map((item) => (
             <Card.Root
               as={"form"}
-              onSubmit={(e) => handleSubmit(e, product.id)}
+              onSubmit={(e) => handleSubmit(e, item.id, item.product)}
               maxW="xs"
-              key={product.id}
+              key={item.id}
             >
               <Image
-                src={`${URL}${product.img}`}
-                alt={`${URL}${product.img}`}
+                src={`${URL}${item.product_image}`}
+                alt={`${URL}${item.product_image}`}
                 h="150px"
                 borderRadius={5}
               />
               <Card.Body>
-                <Card.Title>{product.name}</Card.Title>
+                <Card.Title>{item.product_name}</Card.Title>
 
                 <Text
                   textStyle="2xl"
@@ -93,7 +93,7 @@ export default function Category() {
                   letterSpacing="tight"
                   mt="2"
                 >
-                  $ {product.price}
+                  $ {item.product_price}
                 </Text>
               </Card.Body>
               <Card.Footer alignSelf={"center"}>
@@ -102,9 +102,9 @@ export default function Category() {
                 </Button>
 
                 <NumberInput.Root
-                  value={(quantities[product.id] || 1).toString()}
+                  value={(quantities[item.product] || 1).toString()}
                   onValueChange={(details) =>
-                    handleFormChange(product.id, details)
+                    handleFormChange(item.product, details)
                   }
                   size={"xs"}
                   min={1}
