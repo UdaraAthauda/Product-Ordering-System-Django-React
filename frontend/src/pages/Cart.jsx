@@ -6,10 +6,11 @@ import {
   Image,
   Button,
   NumberInput,
-  HStack,
-  Spacer,
   Flex,
   Box,
+  HStack,
+  Heading,
+  Spacer,
 } from "@chakra-ui/react";
 import api from "@/api";
 import { COMPANY_ID, URL } from "@/constants";
@@ -52,52 +53,60 @@ export default function Cart() {
   };
 
   const handleSubmit = async (e, itemID, productID) => {
-    
     const data = {
-        quantity: quantities[productID]
-    }
-    
-    try {
-        const res = await api.patch(`cart/item/${companyID}/${itemID}/`, data)
+      quantity: quantities[productID],
+    };
 
-        toaster.create({
-            title: 'successful',
-            description: 'Item updated successfully.',
-            type: 'success',
-            duration: 5000,
-        })
+    try {
+      const res = await api.patch(`cart/item/${companyID}/${itemID}/`, data);
+
+      toaster.create({
+        title: "successful",
+        description: "Item updated successfully.",
+        type: "success",
+        duration: 5000,
+      });
     } catch (error) {
-        console.error('error in updating cart: ', error)
+      console.error("error in updating cart: ", error);
     }
   };
 
   const handleDelete = async (itemID) => {
-    
     try {
-      const res = await api.delete(`cart/item/${companyID}/${itemID}/`)
+      const res = await api.delete(`cart/item/${companyID}/${itemID}/`);
 
       toaster.create({
-        title: 'Successful',
-        description: 'Cart item deleted successfully',
-        type: 'info',
+        title: "Successful",
+        description: "Cart item deleted successfully",
+        type: "info",
         duration: 5000,
-      })
+      });
     } catch (error) {
-      console.error('error in delete cart item: ', error)
+      console.error("error in delete cart item: ", error);
     }
-
-  }
+  };
 
   return (
     <>
-      <Flex><Box h={'70px'} w={'full'} bg={'green.500'}>hh</Box></Flex>
+      <Flex h={"70px"} w={"full"} bg={"green.500"} align="center">
+        <Box ml={10} color={'white'}>
+          <HStack spaceX={5}>
+            <Heading>Cart Summery</Heading>
+            <Text>items: {items.length}</Text>
+            <Text>Total Price: $ {cart.total}</Text>
+          </HStack>
+        </Box>
+        <Spacer />
+        <HStack mr={10}><Button variant={'subtle'} colorPalette={'purple'}>Place Order</Button></HStack>
+      </Flex>
+
       <Container centerContent mt={5}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} gap={6}>
           {items.map((item) => (
             <Card.Root
               as={"form"}
               onSubmit={(e) => handleSubmit(e, item.id, item.product)}
-              size={'sm'}
+              size={"sm"}
               key={item.id}
             >
               <Image
@@ -107,11 +116,9 @@ export default function Cart() {
                 borderRadius={5}
               />
               <Card.Body>
-                <Card.Title>
-                  {item.product_name}
-                </Card.Title>
+                <Card.Title>{item.product_name}</Card.Title>
 
-                 <Text textStyle={'xs'}>Price: $ {item.product_price}</Text>
+                <Text textStyle={"xs"}>Unit Price: $ {item.product_price}</Text>
 
                 <Text
                   textStyle="xl"
@@ -123,7 +130,7 @@ export default function Cart() {
                 </Text>
               </Card.Body>
               <Card.Footer alignSelf={"center"}>
-                <Button type="submit" variant="solid" size="xs" w='100px'>
+                <Button type="submit" variant="solid" size="xs" w="100px">
                   Update
                 </Button>
 
@@ -140,7 +147,14 @@ export default function Cart() {
                 </NumberInput.Root>
               </Card.Footer>
 
-              <Button onClick={() => handleDelete(item.id)} variant={'subtle'} size={'xs'} colorPalette={'red'}>Delete</Button>
+              <Button
+                onClick={() => handleDelete(item.id)}
+                variant={"subtle"}
+                size={"xs"}
+                colorPalette={"red"}
+              >
+                Delete
+              </Button>
             </Card.Root>
           ))}
         </SimpleGrid>

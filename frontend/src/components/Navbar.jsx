@@ -76,7 +76,7 @@ export default function Navbar() {
                   <Menu.Positioner>
                     <Menu.Content>
                       <Menu.Item value="1" as={Link} to='/logout' cursor="pointer"><Icon as={HiOutlineLogout} size="md" /> Logout</Menu.Item>
-                      <Menu.Item value="2" cursor="pointer"><Icon as={FaRegUser} size="md"/> Profile</Menu.Item>
+                      <Menu.Item value="2" cursor="pointer"><Icon as={FaRegUser} size="md"/>Profile</Menu.Item>
                     </Menu.Content>
                   </Menu.Positioner>
                 </Portal>
