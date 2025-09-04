@@ -6,6 +6,10 @@ import {
   Image,
   Button,
   NumberInput,
+  HStack,
+  Spacer,
+  Flex,
+  Box,
 } from "@chakra-ui/react";
 import api from "@/api";
 import { COMPANY_ID, URL } from "@/constants";
@@ -48,7 +52,7 @@ export default function Cart() {
   };
 
   const handleSubmit = async (e, itemID, productID) => {
-    e.preventDefault()
+    
     const data = {
         quantity: quantities[productID]
     }
@@ -67,15 +71,33 @@ export default function Cart() {
     }
   };
 
+  const handleDelete = async (itemID) => {
+    
+    try {
+      const res = await api.delete(`cart/item/${companyID}/${itemID}/`)
+
+      toaster.create({
+        title: 'Successful',
+        description: 'Cart item deleted successfully',
+        type: 'info',
+        duration: 5000,
+      })
+    } catch (error) {
+      console.error('error in delete cart item: ', error)
+    }
+
+  }
+
   return (
     <>
+      <Flex><Box h={'70px'} w={'full'} bg={'green.500'}>hh</Box></Flex>
       <Container centerContent mt={5}>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 5 }} gap={6}>
           {items.map((item) => (
             <Card.Root
               as={"form"}
               onSubmit={(e) => handleSubmit(e, item.id, item.product)}
-              maxW="xs"
+              size={'sm'}
               key={item.id}
             >
               <Image
@@ -85,20 +107,24 @@ export default function Cart() {
                 borderRadius={5}
               />
               <Card.Body>
-                <Card.Title>{item.product_name}</Card.Title>
+                <Card.Title>
+                  {item.product_name}
+                </Card.Title>
+
+                 <Text textStyle={'xs'}>Price: $ {item.product_price}</Text>
 
                 <Text
-                  textStyle="2xl"
+                  textStyle="xl"
                   fontWeight="medium"
                   letterSpacing="tight"
                   mt="2"
                 >
-                  $ {item.product_price}
+                  <small>Subtotal:</small> $ {item.subtotal}
                 </Text>
               </Card.Body>
               <Card.Footer alignSelf={"center"}>
-                <Button type="submit" variant="solid" size="xs">
-                  Add to cart
+                <Button type="submit" variant="solid" size="xs" w='100px'>
+                  Update
                 </Button>
 
                 <NumberInput.Root
@@ -113,6 +139,8 @@ export default function Cart() {
                   <NumberInput.Input name="quantity" />
                 </NumberInput.Root>
               </Card.Footer>
+
+              <Button onClick={() => handleDelete(item.id)} variant={'subtle'} size={'xs'} colorPalette={'red'}>Delete</Button>
             </Card.Root>
           ))}
         </SimpleGrid>
