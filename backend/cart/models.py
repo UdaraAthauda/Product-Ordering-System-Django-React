@@ -25,9 +25,12 @@ class CartItem(models.Model):
         return f"{self.quantity} x {self.product.name} - {self.cart.company.name}"
     
     class Meta:
+        ordering = ['-added_at']
+        
         constraints = [
             models.UniqueConstraint(fields=['cart', 'product'], name="unique_cart_product")
         ]
+        
 
     @property
     def subtotal(self):

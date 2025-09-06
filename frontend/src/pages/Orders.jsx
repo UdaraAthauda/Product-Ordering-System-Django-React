@@ -10,6 +10,7 @@ import {
   HStack,
   Spacer,
   Button,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { BsHourglassSplit } from "react-icons/bs";
 import { FcShipped } from "react-icons/fc";
@@ -56,7 +57,7 @@ export default function Orders() {
 
         <Tabs.Content value="orders">
           {pendingOrders.length > 0 ? (
-            <Center>
+            <VStack>
               {pendingOrders.map((order) => (
                 <Flex
                   mt={3}
@@ -99,7 +100,7 @@ export default function Orders() {
                   </Button>
                 </Flex>
               ))}
-            </Center>
+            </VStack>
           ) : (
             <EmptyState.Root>
               <EmptyState.Content>
@@ -120,13 +121,13 @@ export default function Orders() {
 
         <Tabs.Content value="delivered">
           {deliveredOrders.length > 0 ? (
-            <Center>
+            <VStack>
               {deliveredOrders.map((order) => (
                 <Flex
                   mt={3}
                   p={2}
                   w={"95%"}
-                  bg={"purple.500"}
+                  bg={"yellow.600"}
                   align="center"
                   borderRadius={5}
                   gap={"80px"}
@@ -159,11 +160,11 @@ export default function Orders() {
                     mr={3}
                     variant={"subtle"}
                   >
-                    Cancel the order
+                    Give a feedback
                   </Button>
                 </Flex>
               ))}
-            </Center>
+            </VStack>
           ) : (
             <EmptyState.Root>
               <EmptyState.Content>

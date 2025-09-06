@@ -18,7 +18,8 @@ import api from "@/api";
 import { COMPANY_ID, URL } from "@/constants";
 import React, { useEffect, useState } from "react";
 import { toaster } from "@/components/ui/toaster";
-import { LuShoppingCart } from "react-icons/lu"
+import { LuShoppingCart } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart({ setCartLength }) {
   const companyID = localStorage.getItem(COMPANY_ID);
@@ -26,6 +27,7 @@ export default function Cart({ setCartLength }) {
   const [items, setItems] = useState([]);
   const [quantities, setQuantities] = useState({});
   setCartLength(items.length);
+  const navigate = useNavigate()
 
   const handleQuantities = (data) => {
     data.map((item) => {
@@ -94,6 +96,39 @@ export default function Cart({ setCartLength }) {
     }
   };
 
+  //place an order
+  const placeOrder = async () => {
+    if (items.length > 0) {
+      try {
+        await api.post(`order/create/${companyID}/`);
+
+        navigate('/orders')
+
+        toaster.create({
+          title: "Successful",
+          description: "Order placed successfully",
+          type: "success",
+          duration: 5000,
+        });
+      } catch (error) {
+        toaster.create({
+          title: "UnSuccessful",
+          description: "Issue in Orderring",
+          type: "error",
+          duration: 5000,
+        });
+      }
+    } else {
+      toaster.create({
+        title: "Empty is Cart",
+        description: "Add products to the cart",
+        type: "error",
+        duration: Infinity,
+        closable: true,
+      });
+    }
+  };
+
   return (
     <>
       <Flex h={"70px"} w={"full"} bg={"green.500"} align="center">
@@ -110,7 +145,7 @@ export default function Cart({ setCartLength }) {
         </Box>
         <Spacer />
         <HStack mr={10}>
-          <Button variant={"subtle"} colorPalette={"purple"}>
+          <Button variant={"subtle"} colorPalette={"purple"} onClick={placeOrder}>
             Place Order
           </Button>
         </HStack>
@@ -178,7 +213,7 @@ export default function Cart({ setCartLength }) {
             ))}
           </SimpleGrid>
         ) : (
-          <EmptyState.Root size={'lg'}>
+          <EmptyState.Root size={"lg"}>
             <EmptyState.Content>
               <EmptyState.Indicator>
                 <LuShoppingCart />
