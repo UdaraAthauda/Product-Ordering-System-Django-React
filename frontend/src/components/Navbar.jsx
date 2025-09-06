@@ -8,6 +8,7 @@ import {
   Avatar,
   Menu,
   Portal,
+  Text,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { AiFillProduct } from "react-icons/ai";
@@ -21,7 +22,7 @@ import { USER, COMPANY_NAME } from "@/constants";
 import { FaRegUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 
-export default function Navbar() {
+export default function Navbar({cartLength}) {
   const { isAuthenticated } = useContext(AuthContext);
   const user = localStorage.getItem(USER);
   const company = localStorage.getItem(COMPANY_NAME);
@@ -41,30 +42,31 @@ export default function Navbar() {
           Product Orderring
         </Heading>
 
-
         <HStack color="white" gap={4} marginLeft={10}>
           {isAuthenticated ? (
             <>
               {company ? (
-                <Link to='/company'>{company}</Link>
+                <Link to="/company">{company}</Link>
               ) : (
-                <Link to='/company'>Company</Link>
+                <Link to="/company">Company</Link>
               )}
-              
+
               <Sidebar name="Categories" />
             </>
           ) : (
             <Sidebar name="Categories" />
-          )}   
+          )}
         </HStack>
 
         <Spacer />
 
         {/* Navigation Buttons */}
-        <HStack spacing={4} color={'white'}>
+        <HStack spacing={4} color={"white"} gap={4}>
           {isAuthenticated ? (
             <>
-              <Link to='/cart'>Cart</Link>
+              <Button as={Link} to="/cart" color={"white"} variant={"outline"} _hover={{color: 'black'}}>
+                Cart: <Text border='1px' borderRadius={'full'} px={1} bg={'black'} color={'white'}>{cartLength}</Text>
+              </Button>
 
               <Menu.Root>
                 <Menu.Trigger>
@@ -75,8 +77,18 @@ export default function Navbar() {
                 <Portal>
                   <Menu.Positioner>
                     <Menu.Content>
-                      <Menu.Item value="1" as={Link} to='/logout' cursor="pointer"><Icon as={HiOutlineLogout} size="md" /> Logout</Menu.Item>
-                      <Menu.Item value="2" cursor="pointer"><Icon as={FaRegUser} size="md"/>Profile</Menu.Item>
+                      <Menu.Item
+                        value="1"
+                        as={Link}
+                        to="/logout"
+                        cursor="pointer"
+                      >
+                        <Icon as={HiOutlineLogout} size="md" /> Logout
+                      </Menu.Item>
+                      <Menu.Item value="2" cursor="pointer">
+                        <Icon as={FaRegUser} size="md" />
+                        Profile
+                      </Menu.Item>
                     </Menu.Content>
                   </Menu.Positioner>
                 </Portal>

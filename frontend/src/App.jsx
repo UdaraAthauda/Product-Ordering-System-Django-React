@@ -29,10 +29,13 @@ function Logout() {
 }
 
 function App() {
+  // pass cart length to Navbar
+  const [cartLen, setCartLen] = useState(0)
+
   return (
     <>
       <AuthProvider>
-        <Navbar />
+        <Navbar cartLength={cartLen}/>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
@@ -40,7 +43,7 @@ function App() {
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/categories/:catID" element={<ProtectedRoute><Category /></ProtectedRoute>} />
           <Route path="/company" element={<ProtectedRoute><Company /></ProtectedRoute>} />
-          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/cart" element={<ProtectedRoute><Cart setCartLength={setCartLen} /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </>

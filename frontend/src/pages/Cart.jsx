@@ -17,11 +17,12 @@ import { COMPANY_ID, URL } from "@/constants";
 import React, { useEffect, useState } from "react";
 import { toaster } from "@/components/ui/toaster";
 
-export default function Cart() {
+export default function Cart({setCartLength}) {
   const companyID = localStorage.getItem(COMPANY_ID);
   const [cart, setCart] = useState([]);
   const [items, setItems] = useState([]);
   const [quantities, setQuantities] = useState({});
+  setCartLength(items.length)
 
   const handleQuantities = (data) => {
     data.map((item) => {
@@ -29,19 +30,20 @@ export default function Cart() {
     });
   };
 
+  // fetch the cart data
+  const getData = async () => {
+    try {
+      const res = await api.get(`cart/${companyID}/`);
+
+      setCart(res.data);
+      setItems(res.data.items);
+      handleQuantities(res.data.items);
+    } catch (error) {
+      console.error("error in fetching cart: ", error);
+    }
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await api.get(`cart/${companyID}/`);
-
-        setCart(res.data);
-        setItems(res.data.items);
-        handleQuantities(res.data.items);
-      } catch (error) {
-        console.error("error in fetching cart: ", error);
-      }
-    };
-
     getData();
   }, []);
 
@@ -52,6 +54,7 @@ export default function Cart() {
     }));
   };
 
+  // cart data update
   const handleSubmit = async (e, itemID, productID) => {
     const data = {
       quantity: quantities[productID],
@@ -71,9 +74,11 @@ export default function Cart() {
     }
   };
 
+  // cart data delete
   const handleDelete = async (itemID) => {
     try {
       const res = await api.delete(`cart/item/${companyID}/${itemID}/`);
+      getData()
 
       toaster.create({
         title: "Successful",
@@ -89,15 +94,19 @@ export default function Cart() {
   return (
     <>
       <Flex h={"70px"} w={"full"} bg={"green.500"} align="center">
-        <Box ml={10} color={'white'}>
+        <Box ml={10} color={"white"}>
           <HStack spaceX={5}>
             <Heading>Cart Summery</Heading>
-            <Text>items: {items.length}</Text>
-            <Text>Total Price: $ {cart.total}</Text>
+            <Text border='1px solid' borderColor='white' p={2} borderRadius={5}>items: {items.length}</Text>
+            <Text border='1px solid' borderColor='white' p={2} borderRadius={5}>Total Price: $ {cart.total}</Text>
           </HStack>
         </Box>
         <Spacer />
-        <HStack mr={10}><Button variant={'subtle'} colorPalette={'purple'}>Place Order</Button></HStack>
+        <HStack mr={10}>
+          <Button variant={"subtle"} colorPalette={"purple"}>
+            Place Order
+          </Button>
+        </HStack>
       </Flex>
 
       <Container centerContent mt={5}>
