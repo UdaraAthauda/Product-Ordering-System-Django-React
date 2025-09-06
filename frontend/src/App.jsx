@@ -10,6 +10,7 @@ import Navbar from './components/Navbar'
 import Category from './pages/Category'
 import Company from './pages/Company'
 import Cart from './pages/Cart'
+import Orders from './pages/Orders'
 
 function Logout() {
   const { setIsAuthenticated } = useContext(AuthContext);
@@ -44,6 +45,7 @@ function App() {
           <Route path="/categories/:catID" element={<ProtectedRoute><Category /></ProtectedRoute>} />
           <Route path="/company" element={<ProtectedRoute><Company /></ProtectedRoute>} />
           <Route path="/cart" element={<ProtectedRoute><Cart setCartLength={setCartLen} /></ProtectedRoute>} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         </Routes>
       </AuthProvider>
     </>

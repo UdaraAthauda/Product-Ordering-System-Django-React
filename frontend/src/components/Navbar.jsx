@@ -22,7 +22,7 @@ import { USER, COMPANY_NAME } from "@/constants";
 import { FaRegUser } from "react-icons/fa";
 import Sidebar from "./Sidebar";
 
-export default function Navbar({cartLength}) {
+export default function Navbar({ cartLength }) {
   const { isAuthenticated } = useContext(AuthContext);
   const user = localStorage.getItem(USER);
   const company = localStorage.getItem(COMPANY_NAME);
@@ -52,6 +52,8 @@ export default function Navbar({cartLength}) {
               )}
 
               <Sidebar name="Categories" />
+
+              <Link to="/orders">My Orders</Link>
             </>
           ) : (
             <Sidebar name="Categories" />
@@ -64,8 +66,23 @@ export default function Navbar({cartLength}) {
         <HStack spacing={4} color={"white"} gap={4}>
           {isAuthenticated ? (
             <>
-              <Button as={Link} to="/cart" color={"white"} variant={"outline"} _hover={{color: 'black'}}>
-                Cart: <Text border='1px' borderRadius={'full'} px={1} bg={'black'} color={'white'}>{cartLength}</Text>
+              <Button
+                as={Link}
+                to="/cart"
+                color={"white"}
+                variant={"outline"}
+                _hover={{ color: "black" }}
+              >
+                Cart:{" "}
+                <Text
+                  border="1px"
+                  borderRadius={"full"}
+                  px={1}
+                  bg={"black"}
+                  color={"white"}
+                >
+                  {cartLength}
+                </Text>
               </Button>
 
               <Menu.Root>
