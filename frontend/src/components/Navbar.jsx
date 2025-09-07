@@ -56,7 +56,7 @@ export default function Navbar({ cartLength }) {
               <Link to="/orders">My Orders</Link>
             </>
           ) : (
-            <Sidebar name="Categories" />
+            <Link to="/">Products</Link>
           )}
         </HStack>
 

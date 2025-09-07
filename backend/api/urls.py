@@ -31,10 +31,10 @@ urlpatterns = [
     path('products/', ProductView.as_view(), name='products'),
     path('products/<int:cat>/', ProductView.as_view(), name='product'),
     
-    # order creation urls 
+    # order creation/update/delete urls 
     path('order/<int:company_id>/', OrderView.as_view(), name='order'),
     path('order/create/<int:company_id>/', create_order, name='order-creation'),
-    path('order/<int:company_id>/<int:order_id>/', OrderView.as_view(), name='order-delete'),
+    path('order/<int:company_id>/<int:order_id>/', OrderView.as_view(), name='order-update'),
     
     # cart app urls
     path('cart/<int:company_id>/', CartView.as_view(), name='cart-detail'),

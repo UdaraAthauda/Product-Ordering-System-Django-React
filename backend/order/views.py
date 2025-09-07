@@ -7,6 +7,8 @@ from .serializers import *
 from django.shortcuts import get_object_or_404
 from cart.models import Cart
 from django.db import transaction
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 
 class CategoryView(APIView):
@@ -45,6 +47,33 @@ class OrderView(APIView):
             orders = Order.objects.filter(company=company)
         
             return Response(OrderSerializer(orders, many=True).data) 
+        
+    
+    @swagger_auto_schema(
+        operation_description="Update the order status",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=["status"],
+            properties={
+                "status": openapi.Schema(
+                    type=openapi.TYPE_STRING,
+                    description="order status",
+                ),
+            },
+        ),
+        responses={201: OrderSerializer, 400: "Bad Request"},
+    )
+        
+    def patch(self, request, company_id, order_id):
+        company = get_object_or_404(Company, id=company_id, user=request.user)
+        order = get_object_or_404(Order, id=order_id, company=company)
+        
+        status = request.data.get('status')
+        
+        order.status = status
+        order.save()
+        
+        return Response({'message': 'order updated'}, status=200)
     
     def delete(self, request, company_id, order_id):
         company = get_object_or_404(Company, id=company_id, user=request.user)
