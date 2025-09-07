@@ -1,10 +1,14 @@
 📦 Product Ordering System
 
 
+
 A modern full-stack product ordering platform built with Django REST Framework (backend) and React + Chakra UI (frontend). This system lets users explore products, filter by category, add items to a cart, place orders, and track their order status — all within a clean and responsive interface.
 
 
+
 ✨ Features
+
+
 🔐 Authentication & Security
 
 Email/password authentication
